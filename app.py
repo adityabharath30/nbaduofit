@@ -14,7 +14,6 @@ import numpy as np
 import plotly as py
 import plotly.graph_objs as go
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
-import re
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 from basketball_reference_web_scraper import client
