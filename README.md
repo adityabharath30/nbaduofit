@@ -18,3 +18,5 @@ Find out which players are the most similars, and assign each one to a "type" ba
 1. Condense NBA players into 3 dimensional spaces using Principal Component Analysis. Think of it as condensing their 30 statistical measures into 3 to be able to plot them in an xyz plane
 2. Find the 20 most similar players to each selected player, and find the actual average net rating for any existng combinations of those players (using 2 man NBA lineup data)",
 3. Check how this net rating compares to the average 2 man NBA all star net rating (as a ratio to the total mean)
+
+### Data Credits: Basketball Reference and NBA.com
