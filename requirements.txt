@@ -6,6 +6,6 @@ scipy
 fuzzywuzzy
 matplotlib
 streamlit
-sklearn
+scikit-learn
 basketball_reference_web_scraper
 re
