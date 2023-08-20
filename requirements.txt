@@ -8,4 +8,3 @@ matplotlib
 streamlit
 scikit-learn
 basketball_reference_web_scraper
-re
