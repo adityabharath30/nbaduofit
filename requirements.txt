@@ -239,7 +239,7 @@ pickleshare @ file:///tmp/build/80754af9/pickleshare_1606932040724/work
 Pillow==9.0.1
 pkginfo @ file:///tmp/build/80754af9/pkginfo_1643162084911/work
 platformdirs==3.10.0
-plotly==5.16.1
+plotly @ file:///opt/conda/conda-bld/plotly_1646671701182/work
 pluggy @ file:///opt/concourse/worker/volumes/live/42ef51ae-f79c-40e0-6d26-eb6fe9d8ba6e/volume/pluggy_1648042596777/work
 poyo @ file:///tmp/build/80754af9/poyo_1617751526755/work
 prometheus-client @ file:///opt/conda/conda-bld/prometheus_client_1643788673601/work
@@ -404,3 +404,4 @@ zict==2.0.0
 zipp @ file:///opt/conda/conda-bld/zipp_1641824620731/work
 zope.event==5.0
 zope.interface @ file:///opt/concourse/worker/volumes/live/8c2d4bd1-6406-47f0-45ce-890992bafbf6/volume/zope.interface_1625036159007/work
+(base) adityabharath@Adityas-MacBook-Air-2 ~ % 
