@@ -1,6 +1,5 @@
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
+import plotly
 import streamlit as st
 import matplotlib.pyplot as plt
 from fuzzywuzzy import fuzz
