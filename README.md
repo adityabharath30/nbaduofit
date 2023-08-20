@@ -9,10 +9,10 @@ Player fit is hard to quantify. Sure, there's the eye test. However, beyond a ce
 
 **Here's my proposed solution to the problem of predicting all star fit.**
 ### Solution  - Data Science Version:
-First, I will use a an unsupervised clustering algorithm to examine the different types of all stars. Next, training a classification model to predict what type of player someone is. Lastly, using the generated classification labels, aggregate all interactions between the two chosen types of players and find their average net rating. 
+First, I will use a an unsupervised clustering algorithm to examine the different types of all stars. I will compute the 20 closest players to each of the selected players using euclidean distance, and find the actual net rating (if available) for all combinations of those players and aggregate them.
 
 ### Solution - English Version: 
-Find out which players are the most similars, and assign each one to a "type" based on their statistical profile. Check how have Type X and Type Y fit together as an average (using past data on 2 man lineup net rating). 
+Think about any recommendation algorithm: Netflix, Spotify, TikTok. They all operate on the same assumption: if you like object X on their platform, you will also like the closest possible thing to X. Same principle here: find the actual net rating for combinations of players CLOSE to the chosen player and aggregate them
 
 ## Algorithm & Logic:
 1. Condense NBA players into 3 dimensional spaces using Principal Component Analysis. Think of it as condensing their 30 statistical measures into 3 to be able to plot them in an xyz plane
