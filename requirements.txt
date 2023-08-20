@@ -8,4 +8,4 @@ matplotlib
 streamlit
 sklearn
 basketball_reference_web_scraper
-re == 3.11
+re
