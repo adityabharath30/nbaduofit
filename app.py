@@ -114,7 +114,7 @@ option1 = st.selectbox(
 option2 = st.selectbox(
     'Select Player 2', data.values, placeholder = 'None Selected')
 
-duos = pd.read_excel('duos.xlsx')
+duos = pd.read_csv('duos.csv')
 duos.columns = duos.iloc[0]
 duos = duos[1:]
 duos['LINEUPS']=duos['LINEUPS'].astype(str)
