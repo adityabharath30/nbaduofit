@@ -1,5 +1,5 @@
 # NBA DuoFit
-## Link To WebApp: http://192.168.1.6:8511
+## Link To WebApp: https://nbaduofit-ndathxppnk3jgyyrvolahw.streamlit.app/
 Python WebApp to Predict NBA AllStar Duo Success
 
 # Will 2 NBA Players Fit Together?
