@@ -114,9 +114,9 @@ option1 = st.selectbox(
 option2 = st.selectbox(
     'Select Player 2', data.values, placeholder = 'None Selected')
 
-duos = pd.read_csv('duos.csv')
-duos.columns = duos.iloc[0]
-duos = duos[1:]
+duos = pd.read_excel('duos.xlsx')
+duos = duos.iloc[1:]
+duos.rename(columns={'Unnamed: 1': 'NETRTG', 'duos':'LINEUPS'}, inplace=True)
 duos['LINEUPS']=duos['LINEUPS'].astype(str)
 duos[['Player1', 'Player2']] = duos['LINEUPS'].str.rsplit('-', n=1, expand=True) 
 duos.drop(['LINEUPS'],inplace=True,axis=1)
