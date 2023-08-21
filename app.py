@@ -70,7 +70,6 @@ plotX = pd.concat([normdf,PCs_3d], axis=1, join='inner')
 cluster0 = plotX[plotX["Cluster"] == 0]
 cluster1 = plotX[plotX["Cluster"] == 1]
 cluster2 = plotX[plotX["Cluster"] == 2]
-init_notebook_mode(connected=True)
 hover_text_cluster0 = [f"Player: {name}" for name in cluster0["name"]]
 hover_text_cluster1 = [f"Player: {name}" for name in cluster1["name"]]
 hover_text_cluster2 = [f"Player: {name}" for name in cluster2["name"]]
