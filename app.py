@@ -20,7 +20,7 @@ from sklearn.decomposition import PCA
 st.title('NBA DuoFit')
 st.write("Aren't you curious to find out hypothetically how would 2 NBA AllStars Fit Together?")
 st.write('PS: I built this due to my curiosity after I heard about the Bradley Beal to the Suns trade')
-
+st.write('Bear with the slow load times after hitting the Go Button please')
 
 combined = pd.read_csv('combined.csv')
 combined = combined.sort_values(by='value_over_replacement_player', ascending=False).drop_duplicates(
@@ -113,119 +113,119 @@ option1 = st.selectbox(
     'Select Player 1', data.values, placeholder = 'None Selected')
 option2 = st.selectbox(
     'Select Player 2', data.values, placeholder = 'None Selected')
-
-duos = pd.read_excel('duos.xlsx')
-duos = duos.iloc[1:]
-duos.rename(columns={'Unnamed: 1': 'NETRTG', 'duos':'LINEUPS'}, inplace=True)
-duos['LINEUPS']=duos['LINEUPS'].astype(str)
-duos[['Player1', 'Player2']] = duos['LINEUPS'].str.rsplit('-', n=1, expand=True) 
-duos.drop(['LINEUPS'],inplace=True,axis=1)
-
-matched_rows = []
-for index, row in duos.iterrows():
-    player1 = row['Player1']
-    player2 = row['Player2']
-    netrtng = row['NETRTG']
+if(st.button('Go')):
+    duos = pd.read_excel('duos.xlsx')
+    duos = duos.iloc[1:]
+    duos.rename(columns={'Unnamed: 1': 'NETRTG', 'duos':'LINEUPS'}, inplace=True)
+    duos['LINEUPS']=duos['LINEUPS'].astype(str)
+    duos[['Player1', 'Player2']] = duos['LINEUPS'].str.rsplit('-', n=1, expand=True) 
+    duos.drop(['LINEUPS'],inplace=True,axis=1)
     
-    match_count = 0
-    
-    for full_name in data.values:
-        similarity1 = fuzz.token_set_ratio(player1, full_name)
-        similarity2 = fuzz.token_set_ratio(player2, full_name)
+    matched_rows = []
+    for index, row in duos.iterrows():
+        player1 = row['Player1']
+        player2 = row['Player2']
+        netrtng = row['NETRTG']
         
-        if similarity1 >= 80:
-            match_count += 1
+        match_count = 0
         
-        if similarity2 >= 80:
-            match_count += 1
-    
-    if match_count >= 2:  # Change this threshold if necessary
-        matched_rows.append((player1, player2,netrtng))
-matched_duos = pd.DataFrame(matched_rows, columns=['Player1', 'Player2','Net_Rating'])
-
-PCs_3d['name'] = normdf['name'].reset_index().drop('index',axis=1)
-selected_player1 = option1
-selected_player2 = option2
-# Retrieve PCA representations of selected players using PCA dataset
-selected_player1_row = PCs_3d[PCs_3d['name'] == selected_player1].iloc[0]
-selected_player1_pca = selected_player1_row[['PC1_3d', 'PC2_3d', 'PC3_3d']]
-
-selected_player2_row = PCs_3d[PCs_3d['name'] == selected_player2].iloc[0]
-selected_player2_pca = selected_player2_row[['PC1_3d', 'PC2_3d', 'PC3_3d']]
-
-# Calculate Euclidean distances for each player in the dataset
-distances = []
-for index, player_row in PCs_3d.iterrows():
-    player_name = player_row['name']
-    player_pca = player_row[['PC1_3d', 'PC2_3d', 'PC3_3d']]
-    
-    distance1 = np.linalg.norm(selected_player1_pca - player_pca)
-    distance2 = np.linalg.norm(selected_player2_pca - player_pca)
-    
-    distances.append((player_name, distance1, distance2))
-
-# Sort players based on distance1 
-distances.sort(key=lambda x: x[1])
-
-# Find the 20 closest players for selected_player1
-closest_players1 = [player[0] for player in distances[:20]]
-
-# Sort players based on distance2
-distances.sort(key=lambda x: x[2])
-
-# Find the 20 closest players for selected_player2
-closest_players2 = [player[0] for player in distances[:20]]
-
-
-names = np.unique(np.append(closest_players1,closest_players2))
-matched_rows = []
-for index, row in matched_duos.iterrows():
-    player1 = row['Player1']
-    player2 = row['Player2']
-    netrtng = row['Net_Rating']
-    
-    match_count = 0
-    
-    for full_name in names:
-        similarity1 = fuzz.token_set_ratio(player1, full_name)
-        similarity2 = fuzz.token_set_ratio(player2, full_name)
+        for full_name in data.values:
+            similarity1 = fuzz.token_set_ratio(player1, full_name)
+            similarity2 = fuzz.token_set_ratio(player2, full_name)
+            
+            if similarity1 >= 80:
+                match_count += 1
+            
+            if similarity2 >= 80:
+                match_count += 1
         
-        if similarity1 >= 80:
-            match_count += 1
-        
-        if similarity2 >= 80:
-            match_count += 1
+        if match_count >= 2:  # Change this threshold if necessary
+            matched_rows.append((player1, player2,netrtng))
+    matched_duos = pd.DataFrame(matched_rows, columns=['Player1', 'Player2','Net_Rating'])
     
-    if match_count >= 2:  
-        matched_rows.append((player1, player2,netrtng))
-
-filtered_df = pd.DataFrame(matched_rows, columns=["player1", "player2",'netrating'])
-final = (filtered_df['netrating'].mean())/matched_duos['Net_Rating'].mean()
-
-if 0<=final<=1:
-    formatted_text = f'<span style="color: red;">{final}</span>'
-    full_text = f"Net Rating Ratio Estimate: {formatted_text}"
-    st.write(full_text, unsafe_allow_html=True)
-if 1<final<=1.5:
-    formatted_text = f'<span style="color: yellow;">{final}</span>'
-    full_text = f"Net Rating Ratio Estimate: {formatted_text}"
-    st.write(full_text, unsafe_allow_html=True)
-if final >1.5:
-    formatted_text = f'<span style="color: green;">{final}</span>'
-    full_text = f"Net Rating Ratio Estimate: {formatted_text}"
-    st.write(full_text, unsafe_allow_html=True)
-
-st.header('Algorithm & Logic:')
-list_items = [
-    "Condense NBA players into 3 dimensional spaces using Principal Component Analysis. Think of it as condensing their 30 statistical measures into 3 to be able to plot them in an xyz plane",
-    "Find the 20 most similar players to each selected player, and find the actual average net rating for any existng combinations of those players (using 2 man NBA lineup data)",
-    "Check how this net rating compares to the average 2 man NBA all star net rating",
-]
-numbered_list = "<ol>" + "".join([f"<li>{item}</li>" for item in list_items]) + "</ol>"
-st.write(numbered_list, unsafe_allow_html=True)
-
-st.markdown('**:red[Think about if you were to visualize how far two points are on an xy graph. Simple. How about if I asked how similar/dissimilar are 2 NBA All Stars?]**')
-st.markdown("Hover over any point to see which player it is")
-st.plotly_chart(fig)
-
-st.write(pd.DataFrame({'Closest1': closest_players1, 'Closest2': closest_players2}))
+    PCs_3d['name'] = normdf['name'].reset_index().drop('index',axis=1)
+    selected_player1 = option1
+    selected_player2 = option2
+    # Retrieve PCA representations of selected players using PCA dataset
+    selected_player1_row = PCs_3d[PCs_3d['name'] == selected_player1].iloc[0]
+    selected_player1_pca = selected_player1_row[['PC1_3d', 'PC2_3d', 'PC3_3d']]
+    
+    selected_player2_row = PCs_3d[PCs_3d['name'] == selected_player2].iloc[0]
+    selected_player2_pca = selected_player2_row[['PC1_3d', 'PC2_3d', 'PC3_3d']]
+    
+    # Calculate Euclidean distances for each player in the dataset
+    distances = []
+    for index, player_row in PCs_3d.iterrows():
+        player_name = player_row['name']
+        player_pca = player_row[['PC1_3d', 'PC2_3d', 'PC3_3d']]
+        
+        distance1 = np.linalg.norm(selected_player1_pca - player_pca)
+        distance2 = np.linalg.norm(selected_player2_pca - player_pca)
+        
+        distances.append((player_name, distance1, distance2))
+    
+    # Sort players based on distance1 
+    distances.sort(key=lambda x: x[1])
+    
+    # Find the 20 closest players for selected_player1
+    closest_players1 = [player[0] for player in distances[:20]]
+    
+    # Sort players based on distance2
+    distances.sort(key=lambda x: x[2])
+    
+    # Find the 20 closest players for selected_player2
+    closest_players2 = [player[0] for player in distances[:20]]
+    
+    
+    names = np.unique(np.append(closest_players1,closest_players2))
+    matched_rows = []
+    for index, row in matched_duos.iterrows():
+        player1 = row['Player1']
+        player2 = row['Player2']
+        netrtng = row['Net_Rating']
+        
+        match_count = 0
+        
+        for full_name in names:
+            similarity1 = fuzz.token_set_ratio(player1, full_name)
+            similarity2 = fuzz.token_set_ratio(player2, full_name)
+            
+            if similarity1 >= 80:
+                match_count += 1
+            
+            if similarity2 >= 80:
+                match_count += 1
+        
+        if match_count >= 2:  
+            matched_rows.append((player1, player2,netrtng))
+    
+    filtered_df = pd.DataFrame(matched_rows, columns=["player1", "player2",'netrating'])
+    final = (filtered_df['netrating'].mean())/matched_duos['Net_Rating'].mean()
+    
+    if 0<=final<=1:
+        formatted_text = f'<span style="color: red;">{final}</span>'
+        full_text = f"Net Rating Ratio Estimate: {formatted_text}"
+        st.write(full_text, unsafe_allow_html=True)
+    if 1<final<=1.5:
+        formatted_text = f'<span style="color: yellow;">{final}</span>'
+        full_text = f"Net Rating Ratio Estimate: {formatted_text}"
+        st.write(full_text, unsafe_allow_html=True)
+    if final >1.5:
+        formatted_text = f'<span style="color: green;">{final}</span>'
+        full_text = f"Net Rating Ratio Estimate: {formatted_text}"
+        st.write(full_text, unsafe_allow_html=True)
+    
+    st.header('Algorithm & Logic:')
+    list_items = [
+        "Condense NBA players into 3 dimensional spaces using Principal Component Analysis. Think of it as condensing their 30 statistical measures into 3 to be able to plot them in an xyz plane",
+        "Find the 20 most similar players to each selected player, and find the actual average net rating for any existng combinations of those players (using 2 man NBA lineup data)",
+        "Check how this net rating compares to the average 2 man NBA all star net rating",
+    ]
+    numbered_list = "<ol>" + "".join([f"<li>{item}</li>" for item in list_items]) + "</ol>"
+    st.write(numbered_list, unsafe_allow_html=True)
+    
+    st.markdown('**:red[Think about if you were to visualize how far two points are on an xy graph. Simple. How about if I asked how similar/dissimilar are 2 NBA All Stars?]**')
+    st.markdown("Hover over any point to see which player it is")
+    st.plotly_chart(fig)
+    
+    st.write(pd.DataFrame({'Closest1': closest_players1, 'Closest2': closest_players2}))
