@@ -16,7 +16,6 @@ import plotly.graph_objs as go
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
-from basketball_reference_web_scraper import client
 
 st.title('NBA DuoFit')
 st.write("Aren't you curious to find out hypothetically how would 2 NBA AllStars Fit Together?")
