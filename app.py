@@ -214,7 +214,7 @@ if(st.button('Go')):
         formatted_text = f'<span style="color: green;">{final}</span>'
         full_text = f"Net Rating Ratio Estimate: {formatted_text}"
         st.write(full_text, unsafe_allow_html=True)
-    
+    st.write("Interpretation of this number: think of it as a ratio of this combination's score compared to the average all star combination")
     st.header('Algorithm & Logic:')
     list_items = [
         "Condense NBA players into 3 dimensional spaces using Principal Component Analysis. Think of it as condensing their 30 statistical measures into 3 to be able to plot them in an xyz plane",
