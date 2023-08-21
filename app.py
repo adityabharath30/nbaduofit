@@ -143,7 +143,7 @@ for index, row in duos.iterrows():
         matched_rows.append((player1, player2,netrtng))
 matched_duos = pd.DataFrame(matched_rows, columns=['Player1', 'Player2','Net_Rating'])
 
-PCs_3d['name'] = normdf['name'].reset_index().drop('index',axis=1).values
+PCs_3d['name'] = normdf['name'].reset_index().drop('index',axis=1)
 selected_player1 = option1
 selected_player2 = option2
 # Retrieve PCA representations of selected players using PCA dataset
