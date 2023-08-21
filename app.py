@@ -20,7 +20,7 @@ from sklearn.decomposition import PCA
 st.title('NBA DuoFit')
 st.write("Aren't you curious to find out hypothetically how would 2 NBA AllStars Fit Together?")
 st.write('PS: I built this due to my curiosity after I heard about the Bradley Beal to the Suns trade')
-st.write('Bear with the slow load times after hitting the Go Button please')
+st.write('Bear with the slow load times after hitting the Go Button please, it takes upto 2 minutes')
 
 combined = pd.read_csv('combined.csv')
 combined = combined.sort_values(by='value_over_replacement_player', ascending=False).drop_duplicates(
