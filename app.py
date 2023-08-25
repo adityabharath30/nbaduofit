@@ -206,11 +206,11 @@ if(st.button('Go')):
         formatted_text = f'<span style="color: red;">{final}</span>'
         full_text = f"Net Rating Ratio Estimate: {formatted_text}"
         st.write(full_text, unsafe_allow_html=True)
-    if 1<final<=1.5:
+    if 1<final<=1.05:
         formatted_text = f'<span style="color: yellow;">{final}</span>'
         full_text = f"Net Rating Ratio Estimate: {formatted_text}"
         st.write(full_text, unsafe_allow_html=True)
-    if final >1.5:
+    if final >1.05:
         formatted_text = f'<span style="color: green;">{final}</span>'
         full_text = f"Net Rating Ratio Estimate: {formatted_text}"
         st.write(full_text, unsafe_allow_html=True)
